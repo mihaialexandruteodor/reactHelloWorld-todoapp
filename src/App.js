@@ -1,11 +1,24 @@
 import ToDoList from "./ToDoList";
-import React, { useState, useRef} from "react";   //{useState} <- use state hook, used in rerendering
+import React, { useState, useRef, useEffect } from "react";   
+//{useState} <- use state hook, used in rerendering
 // {useRef} <- use references to HTML elements
+//{useEffect} <- use effect hook, used everytime something changes
 import { v4 as uuidv4 } from 'uuid';
+
+const LOCAL_STORAGE_KEY = 'todoApp.todos'
 
 function App() {
   const [todos, setTodos] = useState([])  // object destructuring; todos are the objects, setTodos is the function
   const todoNameRef = useRef()
+
+  useEffect(() => {    //effect to load todos on refresh, written so it's called only once
+    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+    if (storedTodos) setTodos(storedTodos)
+  }, [])
+
+  useEffect(() => {   //effect to save todos locally so they don't disappear on page refresh
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))    
+  }, [todos])
   
   function handleAddTodo(evt){
     const name = todoNameRef.current.value
