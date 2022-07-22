@@ -1,4 +1,5 @@
 import ToDoList from "./ToDoList";
+import React, { useState} from "react";   //{useState} <- use state hook, used in rerendering
 
 function App() {
   return (
