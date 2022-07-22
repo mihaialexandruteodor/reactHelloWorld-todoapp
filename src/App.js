@@ -1,6 +1,7 @@
 import ToDoList from "./ToDoList";
 import React, { useState, useRef} from "react";   //{useState} <- use state hook, used in rerendering
 // {useRef} <- use references to HTML elements
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const [todos, setTodos] = useState([])  // object destructuring; todos are the objects, setTodos is the function
@@ -9,7 +10,10 @@ function App() {
   function handleAddTodo(evt){
     const name = todoNameRef.current.value
     if (name === '') return
-    console.log(name)
+    setTodos(prevTodos => {
+      return [...prevTodos, {id: uuidv4(), name: name, complete: false}]
+    })
+    todoNameRef.current.value = null
   }
 
   return (
